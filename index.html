@@ -13,12 +13,25 @@
     <h1>🌙 Iftar With Mimi 🌙</h1>
     <p class="subtitle">Asha, when are you free for iftar? 🥺🍽️</p>
 
-    <form id="iftarForm">
-      <label><input type="radio" name="date" value="23 February"> 23 February</label>
-      <label><input type="radio" name="date" value="24 February"> 24 February</label>
-      <label><input type="radio" name="date" value="25 February"> 25 February</label>
-      <label><input type="radio" name="date" value="26 February"> 26 February</label>
-      <label><input type="radio" name="date" value="27 February"> 27 February</label>
+    <form id="iftarForm" action="https://formspree.io/f/mnjbbbwr" method="POST">
+      <label>
+        <input type="radio" name="selected_date" value="23 February"> 23 February
+      </label>
+      <label>
+        <input type="radio" name="selected_date" value="24 February"> 24 February
+      </label>
+      <label>
+        <input type="radio" name="selected_date" value="25 February"> 25 February
+      </label>
+      <label>
+        <input type="radio" name="selected_date" value="26 February"> 26 February
+      </label>
+      <label>
+        <input type="radio" name="selected_date" value="27 February"> 27 February
+      </label>
+
+      <!-- Hidden field so email subject is cute -->
+      <input type="hidden" name="_subject" value="🌙 Asha's Iftar Date Response">
 
       <button type="submit">Confirm 💖</button>
     </form>
@@ -27,6 +40,20 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+document.getElementById("iftarForm").addEventListener("submit", function(e){
+  const selected = document.querySelector('input[name="selected_date"]:checked');
+  const response = document.getElementById("response");
+
+  if(!selected){
+    e.preventDefault();
+    response.innerHTML = "Pick a date first bestie 😭🌙";
+    return;
+  }
+
+  response.innerHTML = "YAYYY 🥺 I can't wait for " + selected.value + " 🍽️💗";
+});
+</script>
+
 </body>
 </html>
