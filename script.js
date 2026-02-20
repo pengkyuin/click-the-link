@@ -4,15 +4,14 @@ function popSparkles(x, y){
   const colors = ["#ffd6e8", "#ff5fa6", "#ffd369", "#c9b4ff", "#ffffff"];
   const count = 22;
 
-  // if no coords, random near center
   const baseX = (typeof x === "number") ? x : window.innerWidth * rand(0.35, 0.65);
   const baseY = (typeof y === "number") ? y : window.innerHeight * rand(0.35, 0.65);
 
   for(let i=0;i<count;i++){
     const s = document.createElement("div");
     s.className = "sparkle";
-    s.style.left = (baseX + rand(-30, 30)) + "px";
-    s.style.top = (baseY + rand(-30, 30)) + "px";
+    s.style.left = (baseX + rand(-28, 28)) + "px";
+    s.style.top = (baseY + rand(-28, 28)) + "px";
     s.style.background = colors[Math.floor(rand(0, colors.length))];
     document.body.appendChild(s);
 
@@ -62,11 +61,54 @@ function launchConfetti(){
   }
 }
 
-// Cute: sparkle on taps/clicks (mobile friendly)
+// ambient hearts generator (background)
+function startHearts(layerId){
+  const layer = document.getElementById(layerId);
+  if (!layer) return;
+
+  // prevent duplicates if called multiple times
+  if (layer.dataset.running === "1") return;
+  layer.dataset.running = "1";
+
+  const icons = ["💗","💞","💕","🎀","✨"];
+  const maxOnScreen = 16;
+
+  function spawn(){
+    if (!document.body.contains(layer)) return;
+
+    // keep it lightweight
+    const existing = layer.querySelectorAll(".heart").length;
+    if (existing > maxOnScreen) return;
+
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = icons[Math.floor(rand(0, icons.length))];
+
+    const left = rand(5, 95);
+    const size = rand(14, 22);
+    const dur = rand(6.5, 10.5);
+    const drift = rand(-40, 40);
+
+    h.style.left = left + "vw";
+    h.style.fontSize = size + "px";
+    h.style.animationDuration = dur + "s";
+    h.style.setProperty("--drift", drift + "px");
+
+    layer.appendChild(h);
+
+    setTimeout(() => h.remove(), (dur * 1000) + 200);
+  }
+
+  // spawn a few immediately, then interval
+  for(let i=0;i<5;i++) setTimeout(spawn, i * 250);
+  setInterval(spawn, 520);
+}
+
+// sparkle trail on taps/clicks
 window.addEventListener("pointerdown", (e) => {
-  // avoid sparkle spam on form radio taps? still cute, but lighter
   if (Math.random() < 0.65) popSparkles(e.clientX, e.clientY);
 }, { passive: true });
 
 window.popSparkles = popSparkles;
 window.launchConfetti = launchConfetti;
+window.startHearts = startHearts;
