@@ -1,18 +1,22 @@
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
-function popSparkles(){
+function popSparkles(x, y){
   const colors = ["#ffd6e8", "#ff5fa6", "#ffd369", "#c9b4ff", "#ffffff"];
   const count = 22;
+
+  // if no coords, random near center
+  const baseX = (typeof x === "number") ? x : window.innerWidth * rand(0.35, 0.65);
+  const baseY = (typeof y === "number") ? y : window.innerHeight * rand(0.35, 0.65);
 
   for(let i=0;i<count;i++){
     const s = document.createElement("div");
     s.className = "sparkle";
-    s.style.left = rand(15, 85) + "vw";
-    s.style.top = rand(20, 75) + "vh";
+    s.style.left = (baseX + rand(-30, 30)) + "px";
+    s.style.top = (baseY + rand(-30, 30)) + "px";
     s.style.background = colors[Math.floor(rand(0, colors.length))];
     document.body.appendChild(s);
 
-    const dx = rand(-150, 150);
+    const dx = rand(-170, 170);
     const dy = rand(-170, 170);
     const duration = rand(650, 950);
 
@@ -57,6 +61,12 @@ function launchConfetti(){
     setTimeout(()=> p.remove(), duration + 60);
   }
 }
+
+// Cute: sparkle on taps/clicks (mobile friendly)
+window.addEventListener("pointerdown", (e) => {
+  // avoid sparkle spam on form radio taps? still cute, but lighter
+  if (Math.random() < 0.65) popSparkles(e.clientX, e.clientY);
+}, { passive: true });
 
 window.popSparkles = popSparkles;
 window.launchConfetti = launchConfetti;
