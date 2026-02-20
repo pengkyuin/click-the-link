@@ -7,19 +7,24 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="page">
-  <div class="bg">
+  <div class="bg" aria-hidden="true">
     <div class="blob b1"></div>
     <div class="blob b2"></div>
     <div class="blob b3"></div>
-    <div class="sparkle-layer"></div>
 
-    <div class="floaters" aria-hidden="true">
+    <div class="twinkle"></div>
+
+    <div class="floaters">
       <span class="floater f1">💗</span>
       <span class="floater f2">✨</span>
       <span class="floater f3">🎀</span>
       <span class="floater f4">💞</span>
       <span class="floater f5">🌙</span>
+      <span class="floater f6">💗</span>
+      <span class="floater f7">✨</span>
     </div>
+
+    <div class="hearts" id="heartsLayer"></div>
   </div>
 
   <main class="wrap">
@@ -28,7 +33,6 @@
       <p class="lead">Pick a date you’re free babee 😌</p>
 
       <form id="iftarForm" class="form">
-        <!-- Responsive grid: auto-fit ensures pretty on Android + desktop -->
         <div class="grid pretty-grid">
           <label class="chip">
             <input type="radio" name="selected_date" value="23 February" required>
@@ -83,27 +87,11 @@
     </section>
   </main>
 
-  <!-- walking kitty -->
-  <div class="walker" aria-hidden="true">
-    <div class="kitty alt">
-      <div class="ear left"></div>
-      <div class="ear right"></div>
-      <div class="head"></div>
-      <div class="face">
-        <span class="eye"></span><span class="eye"></span>
-        <span class="nose"></span>
-      </div>
-      <div class="body"></div>
-      <div class="tail"></div>
-      <div class="paw p1"></div>
-      <div class="paw p2"></div>
-      <div class="paw p3"></div>
-      <div class="paw p4"></div>
-    </div>
-  </div>
-
   <script src="script.js"></script>
   <script>
+    // start ambient hearts
+    window.startHearts && window.startHearts('heartsLayer');
+
     // silent submit to Formspree (no Formspree "Thanks" page)
     const FORM_ENDPOINT = "https://formspree.io/f/mnjbbbwr";
 
@@ -123,7 +111,7 @@
       resp.textContent = `Sending… (${selected.value}) 💌`;
       btn.disabled = true;
       btn.classList.add('disabled');
-      if (window.popSparkles) window.popSparkles();
+      window.popSparkles && window.popSparkles();
 
       const data = new FormData();
       data.append("selected_date", selected.value);
