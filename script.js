@@ -1,7 +1,7 @@
 function rand(min, max){ return Math.random() * (max - min) + min; }
 
 function popSparkles(){
-  const colors = ["#ffd1e6", "#ff6fb1", "#ffd369", "#c9b4ff", "#ffffff"];
+  const colors = ["#ffd6e8", "#ff5fa6", "#ffd369", "#c9b4ff", "#ffffff"];
   const count = 22;
 
   for(let i=0;i<count;i++){
@@ -10,11 +10,10 @@ function popSparkles(){
     s.style.left = rand(15, 85) + "vw";
     s.style.top = rand(20, 75) + "vh";
     s.style.background = colors[Math.floor(rand(0, colors.length))];
-    s.style.opacity = "0.95";
     document.body.appendChild(s);
 
-    const dx = rand(-140, 140);
-    const dy = rand(-160, 160);
+    const dx = rand(-150, 150);
+    const dy = rand(-170, 170);
     const duration = rand(650, 950);
 
     s.animate([
@@ -27,8 +26,8 @@ function popSparkles(){
 }
 
 function launchConfetti(){
-  const colors = ["#ff6fb1", "#ffd1e6", "#ffd369", "#c9b4ff", "#ffffff"];
-  const count = 140;
+  const colors = ["#ff5fa6", "#ffd6e8", "#ffd369", "#c9b4ff", "#ffffff"];
+  const count = 150;
 
   for(let i=0;i<count;i++){
     const p = document.createElement("div");
